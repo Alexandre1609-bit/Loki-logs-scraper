@@ -9,6 +9,13 @@ import (
 	"time"
 )
 
+type Parser struct {
+	namespace string
+	log       string
+	start     int
+	end       int
+}
+
 func main() {
 
 	ticker := time.NewTicker(5 * time.Second)
