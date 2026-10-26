@@ -9,11 +9,19 @@ import (
 	"time"
 )
 
-type Parser struct {
-	namespace string
-	log       string
-	start     int
-	end       int
+type Root struct {
+	ObtainedStatus string `json:"status"`
+	Data           Data   `json:"data"`
+}
+
+type Data struct {
+	ResultType string   `json:"resultType"`
+	Result     []Result `json:"result"`
+}
+
+type Result struct {
+	Stream map[string]string `json:"stream"`
+	Values [][]string        `json:"values"`
 }
 
 func main() {
