@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"io"
 	"log"
 	"net/http"
@@ -44,7 +45,7 @@ func main() {
 	   	var response Root
 	   	err := json.Unmarshal([]byte(Test), &response)
 	   	if err != nil {
-	   		panic(err)
+	   		panic(err) Panic ici mais on récupère l'erreur dans notre boucle en dessous
 	   	}
 
 	   	fmt.Println(response)
@@ -62,6 +63,7 @@ func main() {
 	params.Add("query", "{job=~\".+\"}")
 
 	for range ticker.C {
+		var RootJson Root
 		endTime := time.Now()
 		params.Set("start", strconv.FormatInt(startTime.UnixNano(), 10))
 		params.Set("end", strconv.FormatInt(endTime.UnixNano(), 10))
@@ -86,6 +88,19 @@ func main() {
 			log.Print(err)
 			continue
 		}
+
+		err = json.Unmarshal(body, &RootJson)
+		  if err != nil {
+			resp.Body.Close()
+			log.Print(err)
+			continue
+		}
+		
+		for range RootJson.Data.Result {
+			print...
+
+			for range  {...}
+		} 
 
 		sb := string(body)
 		log.Println(sb)
