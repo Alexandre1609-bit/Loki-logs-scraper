@@ -25,7 +25,30 @@ type Result struct {
 }
 
 func main() {
+	/* Fonction de test
+	   	Test := `{
+	     		"status": "success",
+	     		"data": {
+	       		"resultType": "streams",
+	       		"result": [
+	         			{
+	           			"stream": { "service_name": "checkout-api" },
+	           			"values": [
+	             				[ "1782008380038503000", "checkout complete trace_id=5b8..." ]
+	           			]
+	         			}
+	       		]
+	     		}
+	   	}`
 
+	   	var response Root
+	   	err := json.Unmarshal([]byte(Test), &response)
+	   	if err != nil {
+	   		panic(err)
+	   	}
+
+	   	fmt.Println(response)
+	*/
 	ticker := time.NewTicker(5 * time.Second)
 	defer ticker.Stop()
 	startTime := time.Now().Add(-5 * time.Second)
