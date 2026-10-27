@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -60,7 +61,8 @@ func main() {
 	}
 
 	params := url.Values{}
-	params.Add("query", "{job=~\".+\"}")
+	params.Add("query", `{namespace=~".+", namespace!="loki"}`)
+	params.Add("direction", "forward")
 
 	for range ticker.C {
 		var RootJson Root
@@ -99,13 +101,12 @@ func main() {
 		}
 
 		for _, res := range RootJson.Data.Result {
-			log.Print(res.Stream["namespace"], res.Stream["pod"])
+			log.Println(res.Stream["namespace"], res.Stream["pod"])
 			for _, v := range res.Values {
-				log.Print(v[0], v[1])
+				log.Println(v[0], v[1])
+				strings.TrimSpace(v[1])
 			}
 		}
-
-		log.Println(baseURL.String())
 
 		startTime = endTime
 		resp.Body.Close()
