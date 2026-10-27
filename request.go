@@ -90,20 +90,20 @@ func main() {
 		}
 
 		err = json.Unmarshal(body, &RootJson)
-		  if err != nil {
+		if err != nil {
+			sb := string(body)
+			log.Println(sb)
 			resp.Body.Close()
 			log.Print(err)
 			continue
 		}
-		
-		for range RootJson.Data.Result {
-			print...
 
-			for range  {...}
-		} 
-
-		sb := string(body)
-		log.Println(sb)
+		for _, res := range RootJson.Data.Result {
+			log.Print(res.Stream["namespace"], res.Stream["pod"])
+			for _, v := range res.Values {
+				log.Print(v[0], v[1])
+			}
+		}
 
 		log.Println(baseURL.String())
 
