@@ -3,9 +3,12 @@ package main
 import (
 	"log"
 	"os"
+	"regexp"
 
 	"gopkg.in/yaml.v3"
 )
+
+var findIp = regexp.MustCompile(`\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b`)
 
 type conf struct {
 	Address string `yaml:"address"`
@@ -24,6 +27,11 @@ func (c *conf) loadConfig() *conf { //Se renseigner sur cette méthode de décla
 	}
 
 	return c
+}
+
+func maskIp(addresse string) string {
+
+	return findIp.ReplaceAllString(addresse, "IP_MASQUEE")
 }
 
 func mask() {

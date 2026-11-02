@@ -1,5 +1,7 @@
 package main
 
+import "log"
+
 type Root struct {
 	ObtainedStatus string `json:"status"`
 	Data           Data   `json:"data"`
@@ -18,6 +20,8 @@ type Result struct {
 func main() {
 
 	mask()
+	p := "Connexion depuis 192.168.1.50 acceptée"
+	log.Print(maskIp(p))
 	/* Fonction de test
 	   	Test := `{
 	     		"status": "success",
