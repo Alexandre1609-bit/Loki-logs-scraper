@@ -1,16 +1,5 @@
 package main
 
-import (
-	"encoding/json"
-	"io"
-	"log"
-	"net/http"
-	"net/url"
-	"strconv"
-	"strings"
-	"time"
-)
-
 type Root struct {
 	ObtainedStatus string `json:"status"`
 	Data           Data   `json:"data"`
@@ -27,6 +16,8 @@ type Result struct {
 }
 
 func main() {
+
+	mask()
 	/* Fonction de test
 	   	Test := `{
 	     		"status": "success",
@@ -50,7 +41,7 @@ func main() {
 	   	}
 
 	   	fmt.Println(response)
-	*/
+	#########
 	ticker := time.NewTicker(5 * time.Second)
 	defer ticker.Stop()
 	startTime := time.Now().Add(-5 * time.Second)
@@ -104,12 +95,12 @@ func main() {
 			log.Println(res.Stream["namespace"], res.Stream["pod"])
 			for _, v := range res.Values {
 				log.Println(v[0], v[1])
-				strings.TrimSpace(v[1])
+				v[1] = strings.TrimSpace(v[1])
 			}
 		}
 
 		startTime = endTime
 		resp.Body.Close()
 	}
-
+	*/
 }
