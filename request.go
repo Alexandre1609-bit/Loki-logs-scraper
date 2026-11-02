@@ -20,7 +20,7 @@ type Result struct {
 func main() {
 
 	mask()
-	p := "Connexion depuis 192.168.1.50 acceptée"
+	p := "Connexion depuis 192.168.1.50 et 10.0.0.8 acceptée et 192.168.1.50 testée"
 	log.Print(maskIp(p))
 	/* Fonction de test
 	   	Test := `{

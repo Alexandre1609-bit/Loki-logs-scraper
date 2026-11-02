@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"regexp"
@@ -9,6 +10,8 @@ import (
 )
 
 var findIp = regexp.MustCompile(`\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b`)
+var ipCounter = 0
+var ipMap = make(map[string]string)
 
 type conf struct {
 	Address string `yaml:"address"`
@@ -31,7 +34,17 @@ func (c *conf) loadConfig() *conf { //Se renseigner sur cette méthode de décla
 
 func maskIp(addresse string) string {
 
-	return findIp.ReplaceAllString(addresse, "IP_MASQUEE")
+	rst := findIp.ReplaceAllStringFunc(addresse, func(match string) string {
+		if value, ok := ipMap[match]; ok {
+			return value
+		} else {
+			ipCounter++
+			alias := fmt.Sprintf("192.0.2.%d", ipCounter)
+			ipMap[match] = alias
+			return alias
+		}
+	})
+	return rst
 }
 
 func mask() {
