@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"net"
 	"os"
 	"regexp"
 
@@ -35,6 +36,10 @@ func (c *conf) loadConfig() *conf { //Se renseigner sur cette méthode de décla
 func maskIp(addresse string) string {
 
 	rst := findIp.ReplaceAllStringFunc(addresse, func(match string) string {
+		ip := net.ParseIP(match)
+		if ip == nil {
+			return match
+		}
 		if value, ok := ipMap[match]; ok {
 			return value
 		} else {
