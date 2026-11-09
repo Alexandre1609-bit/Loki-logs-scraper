@@ -6,6 +6,7 @@ import (
 	"net"
 	"os"
 	"regexp"
+	"strings"
 
 	"gopkg.in/yaml.v3"
 )
@@ -36,16 +37,24 @@ func (c *conf) loadConfig() *conf { //Se renseigner sur cette méthode de décla
 func maskIp(addresse string) string {
 
 	rst := findIp.ReplaceAllStringFunc(addresse, func(match string) string {
-		ip := net.ParseIP(match)
+		octets := strings.Split(match, ".")
+		for index := range octets {
+			octets[index] = strings.TrimLeft(octets[index], "0")
+			if octets[index] == "" {
+				octets[index] = "0"
+			}
+		}
+		joinIp := strings.Join(octets, ".")
+		ip := net.ParseIP(joinIp)
 		if ip == nil {
 			return match
 		}
-		if value, ok := ipMap[match]; ok {
+		if value, ok := ipMap[joinIp]; ok {
 			return value
 		} else {
 			ipCounter++
 			alias := fmt.Sprintf("192.0.2.%d", ipCounter)
-			ipMap[match] = alias
+			ipMap[joinIp] = alias
 			return alias
 		}
 	})

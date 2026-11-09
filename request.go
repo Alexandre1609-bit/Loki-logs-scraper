@@ -1,6 +1,8 @@
 package main
 
-import "log"
+import (
+	"log"
+)
 
 type Root struct {
 	ObtainedStatus string `json:"status"`
@@ -19,7 +21,7 @@ type Result struct {
 
 func main() {
 
-	p := "010.000.000.001"
+	p := "010.000.000.001 et encore 010.000.000.001 puis 10.0.0.1"
 	log.Print(maskIp(p))
 	/* Fonction de test
 	   	Test := `{
