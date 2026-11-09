@@ -10,7 +10,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-var findIp = regexp.MustCompile(`\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b`)
+var findIp = regexp.MustCompile(`\b\d+(?:\.\d+){3,}\b`)
 var ipCounter = 0
 var ipMap = make(map[string]string)
 

@@ -19,8 +19,7 @@ type Result struct {
 
 func main() {
 
-	mask()
-	p := "test 999.999.999.999 et 10.0.0.4 et 172.0.0.16"
+	p := "010.000.000.001"
 	log.Print(maskIp(p))
 	/* Fonction de test
 	   	Test := `{
