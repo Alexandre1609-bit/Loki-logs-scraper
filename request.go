@@ -1,7 +1,14 @@
 package main
 
 import (
+	"encoding/json"
+	"io"
 	"log"
+	"net/http"
+	"net/url"
+	"strconv"
+	"strings"
+	"time"
 )
 
 type Root struct {
@@ -21,8 +28,8 @@ type Result struct {
 
 func main() {
 
-	p := "010.000.000.001 et encore 010.000.000.001 puis 10.0.0.1"
-	log.Print(maskIp(p))
+	//p := "010.000.000.001 et encore 010.000.000.001 puis 10.0.0.1"
+	//log.Print(maskIp(p))
 	/* Fonction de test
 	   	Test := `{
 	     		"status": "success",
@@ -46,7 +53,7 @@ func main() {
 	   	}
 
 	   	fmt.Println(response)
-	#########
+	######### */
 	ticker := time.NewTicker(5 * time.Second)
 	defer ticker.Stop()
 	startTime := time.Now().Add(-5 * time.Second)
@@ -74,8 +81,8 @@ func main() {
 		}
 
 		if resp.StatusCode != http.StatusOK {
-			res, err := io.ReadAll(resp.Body)
-			log.Print(string(res), err)
+			errBody, err := io.ReadAll(resp.Body)
+			log.Print(string(errBody), err)
 			resp.Body.Close()
 			continue
 		}
@@ -89,8 +96,8 @@ func main() {
 
 		err = json.Unmarshal(body, &RootJson)
 		if err != nil {
-			sb := string(body)
-			log.Println(sb)
+			stringBody := string(body)
+			log.Println(stringBody)
 			resp.Body.Close()
 			log.Print(err)
 			continue
@@ -99,7 +106,7 @@ func main() {
 		for _, res := range RootJson.Data.Result {
 			log.Println(res.Stream["namespace"], res.Stream["pod"])
 			for _, v := range res.Values {
-				log.Println(v[0], v[1])
+				log.Println(v[0], maskIp(v[1]))
 				v[1] = strings.TrimSpace(v[1])
 			}
 		}
@@ -107,5 +114,5 @@ func main() {
 		startTime = endTime
 		resp.Body.Close()
 	}
-	*/
+
 }
