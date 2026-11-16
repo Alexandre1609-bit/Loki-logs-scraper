@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"io"
 	"log"
 	"net/http"
@@ -27,6 +28,12 @@ type Result struct {
 }
 
 func main() {
+	lokiAddr := flag.String("loki", "http://localhost:3100/loki/api/v1/query_range", "Loki query_range endpoint")
+	flag.Parse()
+	baseURL, err := url.Parse(*lokiAddr)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	//p := "010.000.000.001 et encore 010.000.000.001 puis 10.0.0.1"
 	//log.Print(maskIp(p))
@@ -57,11 +64,6 @@ func main() {
 	ticker := time.NewTicker(5 * time.Second)
 	defer ticker.Stop()
 	startTime := time.Now().Add(-5 * time.Second)
-
-	baseURL, err := url.Parse("http://localhost:3100/loki/api/v1/query_range")
-	if err != nil {
-		log.Fatalln(err)
-	}
 
 	params := url.Values{}
 	params.Add("query", `{namespace=~".+", namespace!="loki"}`)
@@ -106,8 +108,8 @@ func main() {
 		for _, res := range RootJson.Data.Result {
 			log.Println(res.Stream["namespace"], res.Stream["pod"])
 			for _, v := range res.Values {
-				log.Println(v[0], maskIp(v[1]))
 				v[1] = strings.TrimSpace(v[1])
+				log.Println(v[0], maskIp(v[1]))
 			}
 		}
 
