@@ -35,32 +35,6 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	//p := "010.000.000.001 et encore 010.000.000.001 puis 10.0.0.1"
-	//log.Print(maskIp(p))
-	/* Fonction de test
-	   	Test := `{
-	     		"status": "success",
-	     		"data": {
-	       		"resultType": "streams",
-	       		"result": [
-	         			{
-	           			"stream": { "service_name": "checkout-api" },
-	           			"values": [
-	             				[ "1782008380038503000", "checkout complete trace_id=5b8..." ]
-	           			]
-	         			}
-	       		]
-	     		}
-	   	}`
-
-	   	var response Root
-	   	err := json.Unmarshal([]byte(Test), &response)
-	   	if err != nil {
-	   		panic(err) Panic ici mais on récupère l'erreur dans notre boucle en dessous
-	   	}
-
-	   	fmt.Println(response)
-	######### */
 	ticker := time.NewTicker(5 * time.Second)
 	defer ticker.Stop()
 	startTime := time.Now().Add(-5 * time.Second)
