@@ -1,0 +1,13 @@
+# Binaire compilé (go build)
+/Loki-logs-scraper
+/scrap-log
+*.exe
+
+# Sorties de tests et de couverture
+*.test
+*.out
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store

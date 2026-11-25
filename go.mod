@@ -1,5 +1,3 @@
-module mask
+module github.com/Alexandre1609-bit/Loki-logs-scraper
 
 go 1.26.8
-
-require gopkg.in/yaml.v3 v3.0.1

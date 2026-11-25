@@ -44,7 +44,7 @@ func main() {
 	params.Add("direction", "forward")
 
 	for range ticker.C {
-		var RootJson Root
+		var root Root
 		endTime := time.Now()
 		params.Set("start", strconv.FormatInt(startTime.UnixNano(), 10))
 		params.Set("end", strconv.FormatInt(endTime.UnixNano(), 10))
@@ -70,7 +70,7 @@ func main() {
 			continue
 		}
 
-		err = json.Unmarshal(body, &RootJson)
+		err = json.Unmarshal(body, &root)
 		if err != nil {
 			stringBody := string(body)
 			log.Println(stringBody)
@@ -79,16 +79,15 @@ func main() {
 			continue
 		}
 
-		for _, res := range RootJson.Data.Result {
+		for _, res := range root.Data.Result {
 			log.Println(res.Stream["namespace"], res.Stream["pod"])
 			for _, v := range res.Values {
 				v[1] = strings.TrimSpace(v[1])
-				log.Println(v[0], maskIp(v[1]))
+				log.Println(v[0], maskIP(v[1]))
 			}
 		}
 
 		startTime = endTime
 		resp.Body.Close()
 	}
-
 }
